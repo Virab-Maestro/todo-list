@@ -26,7 +26,7 @@ import ToDoSort from './components/ToDoSort.vue';
 import { nanoid } from "nanoid";
 import { ref, computed } from 'vue';
 
-const ToDoItems = ref(JSON.parse(localStorage.getItem("todos"))),
+const ToDoItems = ref(JSON.parse(localStorage.getItem("todos") ? localStorage.getItem("todos") : "[]")),
   filterBy = ref("All"),
   listSummaryRef = ref(null)
 
@@ -60,10 +60,10 @@ function editToDo(toDoId, newLabel) {
 }
 
 const listSummary = computed(() => {
-  const numberFinishedItems = ToDoItems.value.filter(
+  const numberFinishedItems = ToDoItems.value?.filter(
     (item) => item.done,
   ).length
-  return `${numberFinishedItems} из ${ToDoItems.value.length} задач ${numberFinishedItems === 1 ? "сделана" : "сделаны"}`
+  return `${numberFinishedItems} из ${ToDoItems.value?.length} задач ${numberFinishedItems === 1 ? "сделана" : numberFinishedItems === 0 ? "сделано" : "сделаны"}`
 })
 
 const ToDoItemsFiltered = computed(() => {
